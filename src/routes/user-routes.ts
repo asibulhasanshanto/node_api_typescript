@@ -23,7 +23,7 @@ router
   .get(getAllUsers)
   .post([uploadAvatar, saveImageUrl('User')], createNewUser);
 
-router.route('/:id').get(getOneUser).patch(updateOneUser);
+router.route('/:id').get(getOneUser).patch(updateOneUser).delete(deleteOneUser);
 //   .delete(restrictTo('admin'), deleteOneUser);router.get('/my-profile', verified, getMyProfile);
 // router.patch('/update-me', [verified, uploadAvatar, saveImageUrl('User')], updateMe);
 

@@ -1,7 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config({ path: `${__dirname}/config.env` });
-console.log(`${__dirname}/config.env`);
+
 import { logger } from './logger';
 
 process.on('uncaughtException', () => {

@@ -14,14 +14,6 @@ export interface IUser extends Document {
   passwordChangeAfter(JWTTimestamp: number): boolean;
 }
 
-export interface RegisterPayload {
-  name: string;
-  email: string;
-  password: string;
-  role: string;
-  dpt: string;
-  studentId: string;
-}
 
 export interface RegisterPayload {
   name: string;

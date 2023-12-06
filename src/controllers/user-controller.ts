@@ -11,6 +11,7 @@ import { validateUser, validateUserUpdate } from '../models/user-model';
 import catchAsync from '../utils/catch-async';
 import AppError from '../utils/app-error';
 import { get } from 'lodash';
+import { IUser } from 'types';
 
 /**
  * @desc    Get all users
@@ -18,7 +19,7 @@ import { get } from 'lodash';
  * @access  Private (admin)
  */
 export const getAllUsers = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const allUsers = await getAllUsersService();
+  const allUsers: IUser[] = await getAllUsersService();
 
   res.status(200).json(allUsers);
 });
@@ -29,7 +30,7 @@ export const getAllUsers = catchAsync(async (req: Request, res: Response, next: 
  * @access  Private (admin)
  */
 export const getOneUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-  const user = await getOneUserService({ _id: req.params.id });
+  const user:IUser = await getOneUserService({ _id: req.params.id });
   if (!user) return next(new AppError('No user found with this id.', 404));
 
   res.status(200).json(user);

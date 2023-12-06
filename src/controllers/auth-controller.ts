@@ -13,6 +13,7 @@ import catchAsync from '../utils/catch-async';
 import AppError from '../utils/app-error';
 import { logger } from '../logger';
 import { get } from 'lodash';
+import { IUser } from 'types';
 
 /**
  * @desc    Register new user
@@ -23,8 +24,8 @@ export const register = catchAsync(async (req: Request, res: Response, next: Nex
   const { error } = validateUser(req.body);
   if (error) return next(new AppError(error.details[0].message, 400));
 
-  const user = await registerService(req.body);
-  const token = generateJwtToken({ id: user._id });
+  const user: IUser = await registerService(req.body);
+  const token: string = generateJwtToken({ id: user._id });
 
   res.status(201).json(token);
 });
@@ -41,8 +42,8 @@ export const login = catchAsync(async (req: Request, res: Response, next: NextFu
     return next(new AppError('Email and password are required.', 400));
   }
 
-  const user = await loginService(email, password);
-  const token = generateJwtToken({ id: user._id });
+  const user: IUser = await loginService(email, password);
+  const token: string = generateJwtToken({ id: user._id });
   logger.info(`User with id [${user._id}] and role [${user.role}] logged in at ${new Date().toLocaleString()}`);
 
   res.status(200).json(token);
@@ -75,8 +76,8 @@ export const resetPassword = catchAsync(async (req: Request, res: Response, next
   const { error } = validateUserPassword(req.body);
   if (error) return next(new AppError(error.details[0].message, 400));
 
-  const user = await resetPasswordService(req.params.resetToken, req.body.password);
-  const token = generateJwtToken({ id: user._id });
+  const user: IUser = await resetPasswordService(req.params.resetToken, req.body.password);
+  const token: string = generateJwtToken({ id: user._id });
 
   res.status(200).json(token);
 });
@@ -91,9 +92,9 @@ export const updatePassword = catchAsync(async (req: Request, res: Response, nex
   if (error) return next(new AppError(error.details[0].message, 400));
 
   const { passwordCurrent, password } = req.body;
-  const user_id = get(req, 'user.id') as string;
-  const user = await updatePasswordService(user_id, passwordCurrent, password);
-  const token = generateJwtToken({ id: user._id });
+  const user_id: string = get(req, 'user.id');
+  const user: IUser = await updatePasswordService(user_id, passwordCurrent, password);
+  const token: string = generateJwtToken({ id: user._id });
 
   res.status(200).json(token);
 });

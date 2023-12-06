@@ -4,6 +4,7 @@ import {verifyJwtToken} from "../services/token-service";
 import AppError from "../utils/app-error";
 import catchAsync from "../utils/catch-async";
 import { merge, get } from "lodash";
+import { IUser } from "types";
 
 export const protect = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +24,7 @@ export const protect = catchAsync(
     const decoded = await verifyJwtToken(token);
 
     // 3) Check if user still exists
-    const currentUser = await getOneUser({ _id: decoded.id });
+    const currentUser:IUser = await getOneUser({ _id: decoded.id });
     if (!currentUser) {
       return next(
         new AppError(
@@ -63,7 +64,7 @@ export const restrictTo = (...roles: string[]) => {
 };
 
 export const verified = (req: Request, res: Response, next: NextFunction) => {
-  const is_verified = get(req, "user.isVerified") as string;
+  const is_verified = get(req, "user.isVerified") as boolean;
 
   if (is_verified) return next();
 

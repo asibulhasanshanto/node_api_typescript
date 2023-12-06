@@ -10,7 +10,7 @@ import cors from 'cors';
 
 export default (app: Application) => {
   // 1) GLOBAL MIDDLEWARE
-  app.enable('trust proxy');
+  app.enable('trust proxy');// Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
 
   // Enable CORS request
   app.use(cors());
